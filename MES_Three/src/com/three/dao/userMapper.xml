@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.three.dao.UserDao">
+	<insert id="add">
+		insert into
+		sysuser(userCode,userPassword,userName,userJob,userEmail,userMobile,userWxnd,userGroup,userRole,isLoginer,isLockPlace,lockPlaceId,createUser,createTime,lastUpdateUser,lastUpdateTime,lastLoginTime,lastLoginoutTime)
+		values(#{userCode},#{userPassword},#{userName},#{userJob},#{userEmail},#{userMobile},#{userWxnd},#{userGroup},#{userRole},#{isLoginer},#{isLockPlace},#{lockPlaceId},#{createUser},#{createTime},#{lastUpdateUser},#{lastUpdateTime},#{lastLoginTime},#{lastLoginoutTime})
+	</insert>
+
+	<delete id="delete">
+		delete from sysuser where
+		userId=#{userId}
+	</delete>
+
+	<update id="update">
+		update sysuser set
+		userCode=#{userCode},userPassword=#{userPassword},userJob=#{userJob},userEmail=#{userEmail},userMobile=#{userMobile},userWxnd=#{userWxnd},userGroup=#{userGroup},userRole=#{userRole},isLoginer=#{isLoginer},isLockPlace=#{isLockPlace},lockPlaceId=#{lockPlaceId}
+		where userId=#{userId}
+	</update>
+
+	<select id="findAll" resultType="com.three.model.UserModel">
+		select * from sysuser
+	</select>
+
+	<select id="findById" resultType="com.three.model.UserModel">
+		select * from sysuser where
+		userId=#{userId}
+	</select>
+
+	<select id="findByCondition"
+		parameterType="com.three.model.UserModel"
+		resultType="com.three.model.UserModel">
+		select * from sysuser
+		<where>
+			<if test="userGroup!='' and userGroup != null"> and userGroup=#{userGroup}</if>
+			<if test="userRole!='' and userRole != null"> and userRole=#{userRole}</if>
+			<if test="userJob!='' and userJob != null"> and userJob=#{userJob}</if>
+			<if test="userCode!='' and userCode != null"> and userCode like concat('%',#{userCode}'%')
+			</if>
+			<if test="userName!=''"> and userName like concat('%',#{userName},'%')
+			</if>
+		</where>
+	</select>
+
+</mapper>
